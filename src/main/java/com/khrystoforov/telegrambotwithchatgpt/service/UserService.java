@@ -50,14 +50,9 @@ public class UserService {
                 });
     }
 
-    public void merge(User user) {
+    public void update(User user) {
         log.info("Method \"UserService.findUserByUserChatId()\" was called");
         userRepository.update(user);
-    }
-
-    public boolean isUserExistByChatId(Long chatId) {
-        log.info("Method \"UserService.isUserExistByChatId()\" was called");
-        return userRepository.existsUserByChatId(chatId);
     }
 
     public User getCurrentUser() {

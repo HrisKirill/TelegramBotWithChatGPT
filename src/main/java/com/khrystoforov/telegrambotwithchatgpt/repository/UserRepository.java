@@ -13,6 +13,4 @@ public interface UserRepository extends BaseJpaRepository<User, Long> {
     Optional<User> findUserByChatId(Long chatId);
 
     boolean existsUserByUsername(String username);
-
-    boolean existsUserByChatId(Long chatId);
 }
