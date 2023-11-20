@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  posgress_db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_DOCKER}
+      POSTGRES_DB: ${POSTGRES_DB_DOCKER}
+    ports:
+      - '5432:5432'
