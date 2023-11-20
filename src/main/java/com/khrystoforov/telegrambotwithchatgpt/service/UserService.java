@@ -1,7 +1,9 @@
 package com.khrystoforov.telegrambotwithchatgpt.service;
 
 import com.khrystoforov.telegrambotwithchatgpt.exception.UserNotFoundException;
+import com.khrystoforov.telegrambotwithchatgpt.mapper.RequestHistoryMapper;
 import com.khrystoforov.telegrambotwithchatgpt.model.User;
+import com.khrystoforov.telegrambotwithchatgpt.payload.dto.RequestHistoryDTO;
 import com.khrystoforov.telegrambotwithchatgpt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,12 +11,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
-
+    private final RequestHistoryMapper requestHistoryMapper;
 
     public boolean isUserExistsByUsername(String username) {
         log.info("Method \"UserService.isUserExistsByUsername()\" was called");
@@ -61,5 +65,12 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         return findUserByUsername(currentPrincipalName);
+    }
+
+    public List<RequestHistoryDTO> getUserHistory() {
+        log.info("Method \"UserService.getUserHistory()\" was called");
+        return getCurrentUser().getHistories().stream()
+                .map(requestHistoryMapper::toDto)
+                .toList();
     }
 }

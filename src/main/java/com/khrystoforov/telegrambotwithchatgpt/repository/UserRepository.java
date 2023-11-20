@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface UserRepository extends BaseJpaRepository<User, Long> {
     Optional<User> findUserByUsername(String username);
 
+    Optional<User> findUserByChatId(Long chatId);
+
     boolean existsUserByUsername(String username);
 
     boolean existsUserByChatId(Long chatId);
