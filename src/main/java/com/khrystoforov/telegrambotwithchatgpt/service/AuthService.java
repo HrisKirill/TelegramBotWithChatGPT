@@ -26,11 +26,11 @@ public class AuthService {
 
     public MessageResponse register(RegisterRequest registerRequest) {
         if (userService.isUserExistsByUsername(registerRequest.getUsername())) {
-            log.error(String.format("User with chatId %d is already exist",
-                    registerRequest.getChatId()));
+            log.error(String.format("User with username %s is already exist",
+                    registerRequest.getUsername()));
 
-            throw new UserIsAlreadyExist(String.format("User with chatId %d is already exist",
-                    registerRequest.getChatId()));
+            throw new UserIsAlreadyExist(String.format("User with username %s is already exist",
+                    registerRequest.getUsername()));
         }
 
         User user = User.builder()
@@ -38,16 +38,10 @@ public class AuthService {
                 .chatId(registerRequest.getChatId())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .registeredAt(LocalDateTime.now())
+                .role(registerRequest.getRole())
                 .build();
 
         userService.createUser(user);
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        registerRequest.getUsername(),
-                        registerRequest.getPassword())
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("User with username {} is created successfully", user.getUsername());
 
         return new MessageResponse(String.format("User with username %s is registered successfully",
