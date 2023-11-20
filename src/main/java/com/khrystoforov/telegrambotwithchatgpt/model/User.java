@@ -1,5 +1,6 @@
 package com.khrystoforov.telegrambotwithchatgpt.model;
 
+import com.khrystoforov.telegrambotwithchatgpt.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 @Entity(name = "users")
 @EqualsAndHashCode(exclude = {"id"})
@@ -24,6 +26,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String username;
 
     private String password;
@@ -33,7 +36,24 @@ public class User implements UserDetails {
 
     private LocalDateTime registeredAt;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private List<RequestHistory> histories = new ArrayList<>();
+
+
+    public void addRequestHistory(String question, String answer) {
+        histories.add(RequestHistory.builder()
+                .answer(answer)
+                .question(question)
+                .time(LocalDateTime.now())
+                .build());
+    }
+
     @Override
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new HashSet<>();
     }
@@ -57,4 +77,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
