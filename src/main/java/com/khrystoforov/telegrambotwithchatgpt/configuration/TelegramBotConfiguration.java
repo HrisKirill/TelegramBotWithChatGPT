@@ -1,6 +1,6 @@
 package com.khrystoforov.telegrambotwithchatgpt.configuration;
 
-import com.khrystoforov.telegrambotwithchatgpt.TelegramBot;
+import com.khrystoforov.telegrambotwithchatgpt.service.TelegramBot;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
