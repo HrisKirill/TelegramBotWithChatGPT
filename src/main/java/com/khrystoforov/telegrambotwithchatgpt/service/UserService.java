@@ -68,4 +68,11 @@ public class UserService {
                 .map(requestHistoryMapper::toDto)
                 .toList();
     }
+
+    public void addToHistory(Long chatId, String question, String answer) {
+        log.info("Method \"UserService.addToHistory()\" was called");
+        User user = findUserByUserChatId(chatId);
+        user.addRequestHistory(question, answer);
+        update(user);
+    }
 }
