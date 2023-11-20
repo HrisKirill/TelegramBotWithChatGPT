@@ -14,8 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 
 @Entity(name = "users")
-@EqualsAndHashCode(exclude = {"id"})
-@ToString(exclude = {"id"})
+@EqualsAndHashCode(exclude = {"id","histories"})
+@ToString(exclude = {"id","histories"})
 @Getter
 @Setter
 @AllArgsConstructor
@@ -31,7 +31,7 @@ public class User implements UserDetails {
 
     private String password;
 
-    @NaturalId
+    @Column(unique = true)
     private Long chatId;
 
     private LocalDateTime registeredAt;
