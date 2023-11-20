@@ -3,19 +3,18 @@ package com.khrystoforov.telegrambotwithchatgpt.model;
 import com.khrystoforov.telegrambotwithchatgpt.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity(name = "users")
-@EqualsAndHashCode(exclude = {"id","histories"})
-@ToString(exclude = {"id","histories"})
+@EqualsAndHashCode(exclude = {"id", "histories"})
+@ToString(exclude = {"id", "histories"})
 @Getter
 @Setter
 @AllArgsConstructor
@@ -55,7 +54,7 @@ public class User implements UserDetails {
     @Override
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new HashSet<>();
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

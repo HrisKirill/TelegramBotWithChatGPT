@@ -1,5 +1,6 @@
 package com.khrystoforov.telegrambotwithchatgpt.security;
 
+import com.khrystoforov.telegrambotwithchatgpt.model.enums.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,6 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/telegram-bot/admin/**").hasAuthority(Role.ADMIN.name())
                                 .anyRequest().authenticated()
                 ).httpBasic(withDefaults())
                 .build();
